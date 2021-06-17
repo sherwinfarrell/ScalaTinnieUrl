@@ -1,0 +1,40 @@
+@()(implicit request:  RequestHeader, flash: Flash)
+
+@main("URL Shortener") {
+<input type="hidden" id="csrfToken" value="@helper.CSRF.getToken.value">
+<input type="hidden" id="getRoute" value="@routes.ApplicationController.getShortenedUrl()">
+
+<div class="container">
+                <div class="row">
+
+                        <div class="col">
+                                <br/>
+                                <h1 class="title is-1">Tinnie URL Shortener</h1>
+
+                                <span>
+                                        <label class="title is-4" for="shortenURL">Get Shortened URL</label>
+                                        <br/>
+                                        <input class="input is-large" type="text" placeholder="Large input" id="shortenURL" />
+                                </span>
+                                <button onClick="shortenDef(this.id)" id="shortenButton" class="button is-link is-rounded">Submit</button>
+
+                                <br/>
+                                <span>
+                                        <div class="title is-5" id="shortenedUrlResp"></div>
+                                        <a class="title is-5" id="shortenedUrlLink" ></a>
+                                </span>
+
+
+
+                        </div>
+
+
+
+                </div>
+
+        </div>
+
+
+
+            <script src="@routes.Assets.versioned("/javascript/basicStuff.js")"></script>
+}

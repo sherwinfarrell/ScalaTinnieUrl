@@ -1,0 +1,30 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-image: url('cool-background.png');
+    background-size: cover;
+
+}
+html {
+    height: 100%;
+}
+body {    
+    min-height: 100%;
+}
+#shortenURL{
+    background: transparent;
+    z-index: 1;
+    margin-bottom: 2%;
+}
+
+.col{
+    padding-top: 20%;
+}
+
+#shortenButton{
+    margin-bottom: 2%;
+}
+
+#shortenedUrlLink{
+    color: rgba(2, 103, 197, 0.822);
+}

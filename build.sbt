@@ -23,9 +23,7 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.5.0"
 libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc"       % "3.3.2",
   "com.h2database"  %  "h2"                % "1.4.197",
-  "ch.qos.logback"  %  "logback-classic"   % "1.2.3",
   "com.typesafe.play" %% "play-slick" % "5.0.0",
-  "com.typesafe.slick" %% "slick-codegen" % "3.3.2",
   "com.typesafe.play" %% "play-json" % "2.8.1",
   "org.postgresql" % "postgresql" % "42.2.11",
   "com.typesafe.slick" %% "slick-hikaricp" % "3.3.2",

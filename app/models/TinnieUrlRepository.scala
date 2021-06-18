@@ -37,6 +37,7 @@ class TinnieUrlRepository @Inject() (protected val dbConfigProvider: DatabaseCon
   def addUrl(inputUrl: String) : Future[Try[UrlTracker]] = {
     val query = tinnieUrl returning tinnieUrl.map(_.id) into ((x, id) => x.copy(id = id))
     val action = query += UrlTracker(-1, inputUrl)
+    logger.info("Running database request for adding new url")
     db.run(action.asTry)
 
   }
@@ -45,9 +46,9 @@ class TinnieUrlRepository @Inject() (protected val dbConfigProvider: DatabaseCon
     val query = tinnieUrl.filter(_.id === id)
     db.run(query.result.asTry).map{
       case Success(x) =>
-        logger.debug("Get Url Db Call was Successfull")
+        logger.debug(s"Get Url Db Call was Successful. Value received is: ${x}")
         x.headOption.map(_.url)
-      case Failure(s) => logger.debug(s"There was an error with the database call: ${s}")
+      case Failure(s) => logger.error(s"There was an error with the database call: ${s}")
         None
     }
 
@@ -58,9 +59,9 @@ class TinnieUrlRepository @Inject() (protected val dbConfigProvider: DatabaseCon
     val action = query.result
     db.run(action.asTry).map{
       case Success(x) =>
-        logger.debug("Get Id db call was successful")
+        logger.debug(s"Get Id db call was successful. Value received is ${x}")
         x.headOption.map(_.id)
-      case Failure(s) => logger.debug("There was an error with the database call: ${s}")
+      case Failure(s) => logger.error("There was an error with the database call: ${s}")
         None
 
     }

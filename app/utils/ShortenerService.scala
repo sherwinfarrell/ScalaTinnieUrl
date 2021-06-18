@@ -3,7 +3,7 @@ package utils
 import scala.annotation.tailrec
 import scala.collection.mutable
 
-object ShortenerService  {
+object ShortenerService {
   val memory_dict = mutable.HashMap[String, Int]()
   val characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   val base = characters.length

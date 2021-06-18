@@ -22,6 +22,7 @@ class ApplicationController  @Inject()(val errorHandler: HttpErrorHandler, tinni
   val logger: Logger = Logger(this.getClass())
 
   def index = Action { implicit request =>
+    logger.info("Index page request been received. Sending back index page. ")
     Ok(views.html.index())
   }
 
@@ -35,17 +36,21 @@ class ApplicationController  @Inject()(val errorHandler: HttpErrorHandler, tinni
         val idFuture = Await.result(tinnieurl.getId(fullUrl).flatMap(x => x match {
           case Some(dbId) => Future(Some(ShortenerService.encode(dbId)))
           case None => tinnieurl.addUrl(fullUrl).map {
-            case Success(value) => Some(ShortenerService.encode(value.id))
-            case Failure(exception) => Future.successful(Ok(Json.obj("msg" -> "There with the database call")))
+            case Success(value) => logger.debug(s"Database Call was successfull, the following value was returned: ${value}")
+              Some(ShortenerService.encode(value.id))
+            case Failure(s) => logger.error(s"There was an error with the database call: ${s}")
+              Future.successful(Ok(Json.obj("msg" -> "There with the database call")))
           }
         }), 100.seconds)
         idFuture match {
-          case Some(id) => Future.successful(Ok(Json.obj("url" -> f"localhost:9000/$id")))
-          case _ => Future.successful(Ok(Json.obj("msg" -> "There was an error with the request")))
+          case Some(id) => logger.info("Sending back shortened Url as Json Obj")
+            Future.successful(Ok(Json.obj("url" -> f"localhost:9000/$id")))
+          case _ => logger.error("Problem with the request made")
+            Future.successful(Ok(Json.obj("msg" -> "There was an error with the request")))
         }
       }
     else {
-      logger.info("The request did not have an appropriate header")
+      logger.error("The request did not have an appropriate header")
       Future.successful(Ok(Json.obj("msg" -> "The Url does not contain http or https prefixes")))
       }
     }
@@ -58,7 +63,7 @@ class ApplicationController  @Inject()(val errorHandler: HttpErrorHandler, tinni
         logger.info("Redirecting the Url to the correct site")
         Future.successful(Redirect(urlString))
       case None =>
-        logger.debug("There is a failure: ")
+        logger.error("There is a failure: ")
         Future.successful(Ok(views.html.error()))
     }, 30.seconds)
   }

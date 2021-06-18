@@ -40,7 +40,7 @@ class ApplicationController  @Inject()(val errorHandler: HttpErrorHandler, tinni
           }
         }), 100.seconds)
         idFuture match {
-          case Some(id) => Future.successful(Ok(Json.obj("url" -> f"https://radiant-ravine-94917.herokuapp.com/$id")))
+          case Some(id) => Future.successful(Ok(Json.obj("url" -> f"localhost:9000/$id")))
           case _ => Future.successful(Ok(Json.obj("msg" -> "There was an error with the request")))
         }
       }

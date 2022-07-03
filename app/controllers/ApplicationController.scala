@@ -5,7 +5,7 @@ import play.api.http.{HttpErrorHandler, Writeable}
 import models.TinnieUrlRepository
 import play.api.mvc._
 import play.api.libs.json.Json
-import utils.ShortenerService
+import service.ShortenerService
 
 import play.api.Logger
 import scala.concurrent.duration.DurationInt
